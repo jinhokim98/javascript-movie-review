@@ -12,12 +12,12 @@ class Modal {
 
   constructor(props: ModalProps) {
     this.template = this.createElements(props);
-    this.onEscapeKeydown();
+    this.setEscapeKeyDownListener();
   }
 
   private createElements({ content }: ModalProps) {
     const modal = this.createModal();
-    modal.appendChild(this.createModalBackdrop());
+    modal.appendChild(this.createModalDimmedLayer());
     modal.appendChild(this.createModalContainer(content));
     return modal;
   }
@@ -28,9 +28,9 @@ class Modal {
     return modal;
   }
 
-  private createModalBackdrop() {
+  private createModalDimmedLayer() {
     const backdrop = document.createElement('div');
-    backdrop.className = 'modal-backdrop';
+    backdrop.className = 'modal-dimmed-layer';
     backdrop.addEventListener('click', this.closeModal.bind(this));
     return backdrop;
   }
@@ -66,7 +66,7 @@ class Modal {
     body.style.overflowY = 'auto';
   }
 
-  onEscapeKeydown() {
+  private setEscapeKeyDownListener() {
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape') {
         this.closeModal();
